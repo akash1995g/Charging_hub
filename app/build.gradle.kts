@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
-    id("com.diffplug.spotless")
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.spotless)
 }
 
 android {
