@@ -2,7 +2,6 @@
 accompanistPermissions = "0.34.0"
 agp = "8.11.1"
 constraintlayoutCompose = "1.0.1"
-coreKtxVersion = "1.4.0"
 gson = "2.13.0"
 hiltAndroid = "2.52"
 hiltNavigationCompose = "1.2.0"
@@ -26,7 +25,8 @@ runner = "1.5.2"
 rules = "1.5.0"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-
+coreKtxVersion = "1.5.0"
+spotlessVersion = "6.14.1"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -69,4 +69,7 @@ ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.re
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid"}
+spotless = { id = "com.diffplug.spotless", version.ref = "spotlessVersion"}
+
 
