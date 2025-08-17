@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Charging Hub</string>
+    <string name="search_bar_placeholder">Find Charging Hub</string>
+    <string name="already_permission_requested">Already Permission Requested</string>
+    <string name="local_db_name">charging_hubs_db</string>>
+    <string name="grant_permission_text">Grant Permissions</string>
+    <string name="permission_description">We need location permissions to continue.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="open_settings_description">Location permissions are permanently denied. Please enable them in Settings.</string>
+    <string name="get_current_location">Get Current Location</string>
+    <string name="menu_option">Menu Option</string>
+    <string name="vehicle_type">Vehicle</string>
+    <string name="ccs_type">CCS - 30kW</string>
+    <string name="distance_unit">Km</string>
+    <string name="fast_charge">Fast</string>
+    <string name="available">Available</string>
+    <string name="star">4.2</string>
+    <string name="time">10:00 AM - 10:00 PM</string>
+    <string name="contact">Contact</string>
+    <string name="navigate">Navigate</string>
+    <string name="address">82, Race Course Rd, Bengaluru, Karnataka 560001</string>
+    <string name="place_name">MAHINDRA CHARGER (457) Hub</string>"
+    <string name="back">Back</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="permission_required_title">Request Permission</string>
+    <string name="dialog_dismiss_button">Cancel</string>
+</resources>

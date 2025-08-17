@@ -1,0 +1,221 @@
+[
+  {
+    "name": "Delhi, India",
+    "latitude": 28.7041,
+    "longitude": 77.1025
+  },
+  {
+    "name": "Mumbai, India",
+    "latitude": 19.0760,
+    "longitude": 72.8777
+  },
+  {
+    "name": "Kolkata, India",
+    "latitude": 22.5726,
+    "longitude": 88.3639
+  },
+  {
+    "name": "Chennai, India",
+    "latitude": 13.0827,
+    "longitude": 80.2707
+  },
+  {
+    "name": "MG Road, Bengaluru",
+    "latitude": 12.9740,
+    "longitude": 77.6122
+  },
+  {
+    "name": "Koramangala, Bengaluru",
+    "latitude": 12.9352,
+    "longitude": 77.6245
+  },
+  {
+    "name": "Indiranagar, Bengaluru",
+    "latitude": 12.9719,
+    "longitude": 77.6412
+  },
+  {
+    "name": "Whitefield, Bengaluru",
+    "latitude": 12.9698,
+
+    "longitude": 77.7500
+  },
+  {
+    "name": "Electronic City, Bengaluru",
+    "latitude": 12.8452,
+    "longitude": 77.6600
+  },
+  {
+    "name": "Jayanagar, Bengaluru",
+    "latitude": 12.9250,
+    "longitude": 77.5938
+  },
+  {
+    "name": "Malleshwaram, Bengaluru",
+    "latitude": 13.0012,
+    "longitude": 77.5708
+  },
+  {
+    "name": "Hebbal, Bengaluru",
+    "latitude": 13.0358,
+    "longitude": 77.5970
+  },
+  {
+    "name": "Banashankari, Bengaluru",
+    "latitude": 12.9257,
+    "longitude": 77.5462
+  },
+  {
+    "name": "Hennur, Bengaluru",
+    "latitude": 13.0382,
+    "longitude": 77.6394
+  },
+  {
+    "name": "Bellandur, Bengaluru",
+    "latitude": 12.9266,
+    "longitude": 77.6845
+  },
+  {
+    "name": "Yelahanka, Bengaluru",
+    "latitude": 13.1013,
+    "longitude": 77.5963
+  },
+  {
+    "name": "Rajajinagar, Bengaluru",
+    "latitude": 12.9915,
+    "longitude": 77.5565
+  },
+  {
+    "name": "Hosur Road, Bengaluru",
+    "latitude": 12.8819,
+    "longitude": 77.6322
+  },
+
+  {
+    "name": "Marathahalli, Bengaluru",
+    "latitude": 12.9563,
+    "longitude": 77.7011
+  },
+  {
+    "name": "BTM Layout, Bengaluru",
+    "latitude": 12.9166,
+    "longitude": 77.6101
+  },
+  {
+    "name": "Varthur, Bengaluru",
+    "latitude": 12.9354,
+    "longitude": 77.7526
+  },
+  {
+    "name": "Sarjapur Road, Bengaluru",
+    "latitude": 12.8740,
+    "longitude": 77.7056
+  },
+  {
+    "name": "Kengeri, Bengaluru",
+    "latitude": 12.9137,
+    "longitude": 77.4819
+  },
+  {
+    "name": "Ulsoor, Bengaluru",
+    "latitude": 12.9843,
+    "longitude": 77.6190
+  },
+  {
+    "name": "Hoskote, Bengaluru",
+    "latitude": 13.0707,
+    "longitude": 77.7981
+  },
+  {
+    "name": "KR Puram, Bengaluru",
+    "latitude": 12.9961,
+    "longitude": 77.6836
+  },
+  {
+    "name": "Basavanagudi, Bengaluru",
+    "latitude": 12.9416,
+    "longitude": 77.5660
+  },
+  {
+    "name": "Nagarbhavi, Bengaluru",
+    "latitude": 12.9619,
+    "longitude": 77.5091
+  },
+  {
+    "name": "Hyderabad, India",
+
+    "latitude": 17.3850,
+    "longitude": 78.4867
+  },
+  {
+    "name": "Ahmedabad, India",
+    "latitude": 23.0225,
+    "longitude": 72.5714
+  },
+  {
+    "name": "Jaipur, India",
+    "latitude": 26.9124,
+    "longitude": 75.7873
+  },
+  {
+    "name": "Lucknow, India",
+    "latitude": 26.8467,
+    "longitude": 80.9462
+  },
+  {
+    "name": "Pune, India",
+    "latitude": 18.5204,
+    "longitude": 73.8567
+  },
+  {
+    "name": "Thiruvananthapuram, India",
+    "latitude": 8.5241,
+    "longitude": 76.9366
+  },
+  {
+    "name": "Patna, India",
+    "latitude": 25.5941,
+    "longitude": 85.1376
+  },
+  {
+    "name": "Guwahati, India",
+    "latitude": 26.1445,
+    "longitude": 91.7362
+  },
+  {
+    "name": "Amritsar, India",
+    "latitude": 31.6340,
+    "longitude": 74.8723
+  },
+  {
+    "name": "Varanasi, India",
+    "latitude": 25.3176,
+    "longitude": 82.9739
+  },
+  {
+    "name": "Kathmandu, Nepal",
+    "latitude": 27.7172,
+    "longitude": 85.3240
+
+  },
+  {
+    "name": "Colombo, Sri Lanka",
+    "latitude": 6.9271,
+    "longitude": 79.8612
+  },
+  {
+    "name": "Dhaka, Bangladesh",
+    "latitude": 23.8103,
+    "longitude": 90.4125
+  },
+  {
+    "name": "Thimphu, Bhutan",
+    "latitude": 27.4728,
+    "longitude": 89.6390
+  },
+  {
+    "name": "Malé, Maldives",
+    "latitude": 4.1755,
+    "longitude": 73.5093
+  }
+]
