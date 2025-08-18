@@ -134,6 +134,10 @@ private fun HomeMapScreenContent(
             modifier = Modifier.testTag("Map"),
             uiSettings = DefaultMapUiSettings.copy(
                 zoomControlsEnabled = false,
+                compassEnabled = false,
+                indoorLevelPickerEnabled = false,
+                mapToolbarEnabled = false,
+                myLocationButtonEnabled = false,
             ),
             cameraPositionState = cameraPositionState,
         ) {
