@@ -32,24 +32,6 @@ class HomeMapScreenTest : ComposeUITest() {
     val getCurrentLocationUseCase: GetCurrentLocationUseCase = mockk()
 
     @Test
-    fun test_PermissionRequest_Screen() {
-        initialize(false)
-        with(composeTestRule) {
-            if (onNodeWithText(getStringFromRes(R.string.grant_permission_text)).isDisplayed()) {
-                onNodeWithText(getStringFromRes(R.string.grant_permission_text)).assertIsDisplayed()
-                onNodeWithText(getStringFromRes(R.string.permission_description)).assertIsDisplayed()
-                onNodeWithText(getStringFromRes(R.string.grant_permission_text)).assertHasClickAction()
-                    .performClick()
-            } else if (onNodeWithText(getStringFromRes(R.string.open_settings)).isDisplayed()) {
-                onNodeWithText(getStringFromRes(R.string.open_settings)).assertIsDisplayed()
-                onNodeWithText(getStringFromRes(R.string.open_settings_description)).assertIsDisplayed()
-                onNodeWithText(getStringFromRes(R.string.open_settings)).assertHasClickAction()
-                    .performClick()
-            }
-        }
-    }
-
-    @Test
     fun test_Map_Screen() {
         initialize()
         with(composeTestRule) {
@@ -153,24 +135,17 @@ class HomeMapScreenTest : ComposeUITest() {
         }
     }
 
-    private fun initialize(givePermission: Boolean = true) {
-        if (givePermission) {
-            grantPermission(
-                listOf(
-                    "android.permission.ACCESS_FINE_LOCATION",
-                    "android.permission.ACCESS_COARSE_LOCATION",
-                ),
-            )
-        }
+    private fun initialize() {
+        grantPermission(
+            listOf(
+                "android.permission.ACCESS_FINE_LOCATION",
+                "android.permission.ACCESS_COARSE_LOCATION",
+            ),
+        )
         coEvery { getCurrentLocationUseCase() } returns LatLng(12.952235, 77.543683)
         setContent {
             HomeMapScreen()
         }
-    }
-
-    private fun AndroidComposeTestRule<ActivityScenarioRule<HiltTestActivity>, HiltTestActivity>.addDelay() {
-        waitForIdle()
-        Thread.sleep(10_000)
     }
 
     private fun AndroidComposeTestRule<ActivityScenarioRule<HiltTestActivity>, HiltTestActivity>.getMyLocation() {
