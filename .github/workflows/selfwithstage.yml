@@ -1,0 +1,178 @@
+name: Build Android Reusable
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        required: true
+        type: string
+      ui_test:
+        required: true
+        type: string
+      release_type:
+        required: true
+        type: string
+      package_name:
+        required: true
+        type: string
+    secrets:
+      SONAR_TOKEN: # Declare secrets you will use in the steps
+        required: false
+      KEYSTORE_PASSWORD:
+        required: false
+      KEY_ALIAS:
+        required: false
+      KEY_PASSWORD:
+        required: false
+      PLAY_STORE_SERVICE_ACCOUNT_JSON:
+        required: false
+
+# self-hosted
+# ubuntu-latest
+
+
+jobs:
+  setup:
+    runs-on: ${{ inputs.runner }}
+    outputs:
+      cache-hit: ${{ steps.cache-android.outputs.cache-hit }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Android Environment Setup
+        uses: ./.github/actions/android-setup
+
+  spotless:
+    runs-on: ${{ inputs.runner }}
+    needs: setup
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Android Environment Setup
+        uses: ./.github/actions/android-setup
+
+      - name: Run Spotless
+        run: ./gradlew spotlessCheck
+
+  unit-test:
+    runs-on: ${{ inputs.runner }}
+    needs: spotless
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Android Environment Setup
+        uses: ./.github/actions/android-setup
+
+      - name: Generate Code Coverage Report
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          CURRENT_BRANCH: ${{ github.ref_name }}
+        run: ./gradlew codeCheck
+
+  ui-test:
+    runs-on: ${{ inputs.runner }}
+    if: ${{
+      (
+      github.event_name == 'pull_request' &&
+      !contains(github.event.pull_request.labels.*.name, 'Skip-UI-Test') &&
+      !contains(github.event.pull_request.labels.*.name, 'Custom Emulator')
+      ) || (
+      github.event_name == 'workflow_dispatch' &&
+      (github.event.inputs.ui_test == 'lib')
+      )
+      }}
+    strategy:
+      matrix:
+        api-level: [ 33 ]  # <-- Customize API levels here!
+        arch: [ x86_64 ]
+    needs: spotless
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Start Emulator and Install App
+        uses: ./.github/actions/emulator
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: ${{ matrix.arch }}
+          package: ${{inputs.package_name}}
+
+  ui-test-2:
+    runs-on: ${{ inputs.runner }}
+    if: ${{
+      (
+      github.event_name == 'pull_request' &&
+      !contains(github.event.pull_request.labels.*.name, 'Skip-UI-Test') &&
+      contains(github.event.pull_request.labels.*.name, 'Custom Emulator')
+      ) || (
+      github.event_name == 'workflow_dispatch' &&
+      (github.event.inputs.ui_test == 'self')
+      )
+      }}
+    strategy:
+      matrix:
+        api-level: [ 33 ]  # <-- Customize API levels here!
+        arch: [ x86_64 ]
+    needs: spotless
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Emulator Environment Setup
+        uses: ./.github/actions/emulator-setup
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: ${{ matrix.arch }}
+          package: ${{inputs.package_name}}
+
+  assemble:
+    runs-on: ${{ inputs.runner }}
+    needs: [ unit-test, ui-test, ui-test-2 ]
+    if: ${{
+      always() &&
+      needs.unit-test.result == 'success' &&
+      (needs.ui-test.result == 'success' || needs.ui-test.result == 'skipped') &&
+      (needs.ui-test-2.result == 'success' || needs.ui-test-2.result == 'skipped')
+      }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Android Environment Setup
+        uses: ./.github/actions/android-setup
+
+      - name: Build APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew bundleRelease assembleRelease
+
+      - name: Upload APK
+        if: ${{ inputs.release_type != 'none' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-app-build
+          path: app/build/outputs/apk/release/app-release.apk
+          retention-days: 1
+      - name: Upload AAB
+        if: ${{ inputs.release_type != 'none' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-abb-build
+          path: app/build/outputs/bundle/release/app-release.aab
+          retention-days: 1
+
+      - name: Upload ${{ inputs.release_type }} Build to Google Play
+        if: ${{ inputs.release_type != 'none' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ inputs.package_name }}
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: ${{ inputs.release_type }}
+
+
