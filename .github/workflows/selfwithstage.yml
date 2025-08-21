@@ -145,11 +145,16 @@ jobs:
         uses: ./.github/actions/android-setup
 
       - name: Build APK
+        if: ${{ inputs.release_type != 'none' }}
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew bundleRelease assembleRelease
+
+      - name: Debug Build APK
+        if: ${{ inputs.release_type == 'none' }}
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         if: ${{ inputs.release_type != 'none' }}
@@ -174,5 +179,4 @@ jobs:
           packageName: ${{ inputs.package_name }}
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: ${{ inputs.release_type }}
-
 
