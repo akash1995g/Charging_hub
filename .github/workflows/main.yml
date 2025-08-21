@@ -1,0 +1,69 @@
+name: Android Build Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner_type:
+        description: 'Select runner type'
+        required: true
+        default: 'ubuntu-latest'
+        type: choice
+        options:
+          - ubuntu-latest
+          - self-hosted
+      ui_test:
+        description: 'Select UI test runner'
+        required: true
+        default: 'none'
+        type: choice
+        options:
+          - none
+          - self
+          - lib
+      release:
+        description: 'Select Release type'
+        required: true
+        default: 'none'
+        type: choice
+        options:
+          - none
+          - production
+          - beta
+          - alpha
+          - internal
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # This job is responsible for selecting the appropriate runner type.
+  # It checks the event name and, based on it, decides which runner to use.
+  # - For 'workflow_dispatch' events, it uses the 'runner_type' input.
+  # - For 'pull_request' or 'push' events, it checks for the 'Ubuntu-latest' label.
+  #   If the label exists, it uses 'ubuntu-latest'; otherwise, it defaults to 'self-hosted'.
+  # It also checks if the pull request has the 'Stop' label. if it has, it will skip this step
+  select-runner:
+    if: ${{ (github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'Stop')) || github.event_name == 'workflow_dispatch' }}
+    uses: ./.github/workflows/selfwithstage.yml
+    with:
+      runner: ${{
+        github.event_name == 'workflow_dispatch' && inputs.runner_type ||
+        (github.event_name == 'pull_request' || github.event_name == 'push') &&
+        (contains(github.event.pull_request.labels.*.name, 'Ubuntu-latest') && 'ubuntu-latest' || 'self-hosted')
+        }}
+      ui_test: ${{ inputs.ui_test || 'none' }}
+      release_type: ${{ inputs.release || 'none' }}
+      package_name: com.akashg.androidapp.charginghub
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{  secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}

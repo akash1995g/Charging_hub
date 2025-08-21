@@ -1,0 +1,49 @@
+name: Emulator Setup
+description: Common setup for Emulator builds
+inputs:
+  api-level:
+    description: 'Android API Level'
+    required: false
+    default: "30"
+  arch:
+    description: 'CPU Arch'
+    required: false
+    default: "x86_64"
+  package:
+    description: "App package name to monitor"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    # Step 1: Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Grant execute permission for gradlew
+      shell: bash
+      run: chmod +x ./gradlew
+
+    - name: Start emulator and run tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ inputs.api-level }}
+        target: google_apis
+        arch: ${{ inputs.arch }}
+        emulator-boot-timeout: 900
+        disable-animations: true
+        emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -camera-back none
+        script: |
+          echo -e "\033[1;32m✅ Emulator Ready \033[0m"
+          adb -s emulator-5554 wait-for-device
+          ./gradlew connectedDebugAndroidTest
