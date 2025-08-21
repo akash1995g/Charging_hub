@@ -60,10 +60,14 @@ android {
     }
 }
 
-fun Project.getLocalProperty(key: String, file: String = "config.properties"): Any {
-    val properties = Properties()
-    properties.load(project.rootProject.file(file).reader())
-    return properties.getProperty(key)
+fun getLocalProperty(key: String, file: String = "config.properties"): String {
+    val localFile = rootProject.file(file)
+    return if (localFile.exists()) {
+        val props = Properties().apply { load(localFile.reader()) }
+        props.getProperty(key) ?: ""
+    } else {
+        System.getenv(key.uppercase()) ?: ""
+    }
 }
 
 dependencies {
